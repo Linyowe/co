@@ -13,24 +13,100 @@
  * the square's size. The 'q' key is used to quit the game.
  */
 class SquareGame {
-   field Square square; // the square of this game
-   field int direction; // the square's current direction: 
-                        // 0=none, 1=up, 2=down, 3=left, 4=right
+    field int x, y; // 方塊的座標
+    field int size; // 方塊的大小
 
-   /** Constructs a new square game. */
-   constructor SquareGame new() {
-      // The initial square is located in (0,0), has size 30, and is not moving.
-      let square = Square.new(0, 0, 30);
-      let direction = 0;
-      return this;
-   }
+    /** 建構子：初始化方塊位置 */
+    constructor SquareGame new() {
+        let x = 0;
+        let y = 0;
+        let size = 30;
+        do draw();
+        return this;
+    }
 
-   /** Disposes this game. */
-   method void dispose() {
-      do square.dispose();
-      do Memory.deAlloc(this);
-      return;
-   }
+    /** 記憶體回收 */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** 畫出方塊 */
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x, y, x + size, y + size);
+        return;
+    }
+
+    /** 擦除方塊 */
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x, y, x + size, y + size);
+        return;
+    }
+
+    /** 遊戲主迴圈 */
+    method void run() {
+        var char key;
+        var boolean exit;
+        let exit = false;
+
+        while (~exit) {
+            // 等待按鍵
+            while (key = 0) {
+                let key = Keyboard.keyPressed();
+            }
+
+            if (key = 81)  { let exit = true; }     // Q 鍵退出
+            if (key = 131) { do moveUp(); }         // 上
+            if (key = 133) { do moveDown(); }       // 下
+            if (key = 130) { do moveLeft(); }       // 左
+            if (key = 132) { do moveRight(); }      // 右
+
+            // 等待放開按鍵
+            while (~(key = 0)) {
+                let key = Keyboard.keyPressed();
+            }
+        }
+        return;
+    }
+
+    method void moveUp() {
+        if (y > 1) {
+            do erase();
+            let y = y - 2;
+            do draw();
+        }
+        return;
+    }
+
+    method void moveDown() {
+        if ((y + size) < 254) {
+            do erase();
+            let y = y + 2;
+            do draw();
+        }
+        return;
+    }
+
+    method void moveLeft() {
+        if (x > 1) {
+            do erase();
+            let x = x - 2;
+            do draw();
+        }
+        return;
+    }
+
+    method void moveRight() {
+        if ((x + size) < 510) {
+            do erase();
+            let x = x + 2;
+            do draw();
+        }
+        return;
+    }
+}
 
    /** Moves the square in the current direction. */
    method void moveSquare() {
@@ -71,6 +147,7 @@ class SquareGame {
      return;
    }
 }
+
 
 
 
