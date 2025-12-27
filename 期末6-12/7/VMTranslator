@@ -8,3 +8,14 @@ void writeArithmetic(string command) {
     }
     // ... 其他如 sub, neg, eq ...
 }
+void writePushPop(string command, string segment, int index) {
+    if (command == "C_PUSH" && segment == "constant") {
+        output << "@" << index << "\n"
+               << "D=A\n"
+               << "@SP\n"
+               << "A=M\n"
+               << "M=D\n"
+               << "@SP\n"
+               << "M=M+1\n";
+    }
+}
