@@ -4,6 +4,7 @@
 // File name: projects/9/Square/Main.jack
 
 /** Initializes a new Square game and starts running it. */
+/** Main class for the Square Move program. */
 class Main {
     function void main() {
         var SquareGame game;
@@ -12,4 +13,6 @@ class Main {
         do game.dispose();
         return;
     }
+    
 }
+
