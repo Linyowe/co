@@ -1,0 +1,10 @@
+void writeArithmetic(string command) {
+    if (command == "add") {
+        output << "@SP\n"
+               << "AM=M-1\n" // 取得第二個運算元
+               << "D=M\n"
+               << "A=A-1\n"   // 指向第一個運算元
+               << "M=D+M\n";  // 相加後存回
+    }
+    // ... 其他如 sub, neg, eq ...
+}
