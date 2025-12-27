@@ -13,6 +13,17 @@ CHIP PC {
     IN in[16],inc, load, reset;
     OUT out[16];
     
-    PARTS:
-    //// Replace this comment with your code.
+PARTS:
+    // 1. 先計算遞增值
+    Inc16(in=pcout, out=pcinced);
+    // 2. 判斷是否 inc (if inc then pcinced else pcout)
+    Mux16(a=pcout, b=pcinced, sel=inc, out=outinc);
+    // 3. 判斷是否 load (if load then in else outinc)
+    Mux16(a=outinc, b=in, sel=load, out=outload);
+    // 4. 判斷是否 reset (if reset then 0 else outload)
+    Mux16(a=outload, b=false, sel=reset, out=outfinal);
+    
+    // 最後餵給 Register 儲存狀態，並回饋給下一個時脈使用
+    Register(in=outfinal, load=true, out=out, out=pcout);
 }
+
