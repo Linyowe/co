@@ -1,0 +1,15 @@
+/** 實作乘法：x * y */
+function int multiply(int x, int y) {
+    var int sum, shiftedX, j;
+    let sum = 0;
+    let shiftedX = x;
+    let j = 0;
+    while (j < 16) { // 處理 16 位元
+        if (Math.bit(y, j)) { // 如果 y 的第 j 位是 1
+            let sum = sum + shiftedX;
+        }
+        let shiftedX = shiftedX + shiftedX; // 相當於左移 1 位
+        let j = j + 1;
+    }
+    return sum;
+}
